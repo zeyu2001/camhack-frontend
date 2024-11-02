@@ -137,7 +137,7 @@ export const Matches = ({
       </div>
       <ul className="divide-y divide-gray-100">
         {matches
-          .sort((a, b) => {
+          .toSorted((a, b) => {
             if (recommendedMatches.includes(a.id)) return -1;
             if (recommendedMatches.includes(b.id)) return 1;
             return 0;
