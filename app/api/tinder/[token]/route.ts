@@ -38,7 +38,7 @@ export async function POST(
     };
   
     const res = await fetch(
-      "pyhtonanywhereapi",
+      "https://developer314159.pythonanywhere.com/",
       {
         method: "POST",
         headers: {
