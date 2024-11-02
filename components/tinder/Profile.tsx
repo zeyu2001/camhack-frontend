@@ -15,6 +15,10 @@ export const Profile = () => {
   const [userPrompt, setUserPrompt] = useState("");
   const [userInterests, setUserInterests] = useState<string[]>([]);
   const [quizResponses, setQuizResponses] = useState<string[]>([]);
+  const [prompts, setPrompts] = useState<
+    { prompt: string; response: string }[]
+  >([]);
+  const [generatedResponses, setGeneratedResponses] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,6 +55,12 @@ export const Profile = () => {
           .join(", ")
       );
 
+      const prompts = data.user.user_prompts.prompts.map((prompt) => ({
+        prompt: prompt.question_text,
+        response: prompt.answer_text,
+      }));
+
+      setPrompts(prompts);
       setUserInterests(interests);
       setQuizResponses(responses);
       setLoading(false);
@@ -85,6 +95,20 @@ export const Profile = () => {
             <dd className="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0 flex gap-2">
               {userInterests.map((interest, idx) => (
                 <Badge key={idx}>{interest}</Badge>
+              ))}
+            </dd>
+          </div>
+          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt className="text-sm/6 font-medium text-white">Prompts</dt>
+            <dd className="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0">
+              {prompts.map((prompt, idx) => (
+                <div key={idx} className="my-4">
+                  <p className="font-medium text-white">{prompt.prompt}</p>
+                  <p className="text-gray-400">{prompt.response}</p>
+                  {generatedResponses[idx] && (
+                    <p className="text-green-500">{generatedResponses[idx]}</p>
+                  )}
+                </div>
               ))}
             </dd>
           </div>
@@ -131,6 +155,9 @@ export const Profile = () => {
               bio={generatedBio}
               setGeneratedBio={setGeneratedBio}
               setBio={setBio}
+              responses={generatedResponses}
+              setGeneratedResponses={setGeneratedResponses}
+              setPrompts={setPrompts}
             />
           )}
           <GenerateBioButton
@@ -138,6 +165,8 @@ export const Profile = () => {
             userPrompt={userPrompt}
             userInterests={userInterests}
             quizResponses={quizResponses}
+            tinderQuestions={prompts.map((prompt) => prompt.prompt)}
+            setGeneratedResponses={setGeneratedResponses}
           />
           <UserPromptDialog
             setUserPrompt={setUserPrompt}

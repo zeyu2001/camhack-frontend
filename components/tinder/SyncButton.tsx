@@ -10,15 +10,22 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { Dispatch, SetStateAction } from "react";
 
 export function SyncButton({
   bio,
+  responses,
   setGeneratedBio,
   setBio,
+  setGeneratedResponses,
+  setPrompts,
 }: Readonly<{
   bio: string;
+  responses: string[];
   setGeneratedBio: (bio: string) => void;
   setBio: (bio: string) => void;
+  setGeneratedResponses: (responses: string[]) => void;
+  setPrompts: Dispatch<SetStateAction<{ prompt: string; response: string }[]>>;
 }>) {
   return (
     <AlertDialog>
@@ -51,6 +58,13 @@ export function SyncButton({
 
               setBio(bio);
               setGeneratedBio("");
+              setPrompts((prompts) =>
+                prompts.map((prompt, i) => ({
+                  ...prompt,
+                  response: responses[i],
+                }))
+              );
+              setGeneratedResponses([]);
             }}
           >
             Continue

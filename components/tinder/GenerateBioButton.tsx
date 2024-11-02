@@ -7,12 +7,16 @@ export function GenerateBioButton({
   userPrompt,
   quizResponses,
   userInterests,
+  tinderQuestions,
+  setGeneratedResponses,
   setGeneratedBio,
 }: Readonly<{
   userPrompt: string;
   setGeneratedBio: (bio: string) => void;
   quizResponses: string[];
   userInterests: string[];
+  tinderQuestions: string[];
+  setGeneratedResponses: (responses: string[]) => void;
 }>): JSX.Element {
   const [instagramItems, loading] = useInstagramMedia();
   const [generatingBio, setGeneratingBio] = useState(false);
@@ -22,7 +26,9 @@ export function GenerateBioButton({
       variant="outline"
       disabled={generatingBio}
       onClick={async () => {
-        if (loading) return;
+        if (loading) {
+          alert("Link your Instagram account first!");
+        }
 
         setGeneratingBio(true);
 
@@ -51,19 +57,28 @@ export function GenerateBioButton({
           instaCaptions: instagramItems.map((item) => item.caption),
           userPrompt: userPrompt,
           tinderUserInfo: tinderUserInfo,
-          tinderQuestions: [],
+          tinderQuestions: tinderQuestions,
         };
 
-        const res = await fetch("https://developer314159.pythonanywhere.com/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload), // Convert the payload to a JSON string
-        });
+        const res = await fetch(
+          "https://flowingpurplecrane.pythonanywhere.com/vision",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload), // Convert the payload to a JSON string
+          }
+        );
 
-        const data = await res.text();
-        setGeneratedBio(data);
+        const data = await res.json();
+        if (data.error) {
+          setGeneratingBio(false);
+          return;
+        }
+
+        setGeneratedResponses(data.tinder_replies);
+        setGeneratedBio(data.bio);
         setGeneratingBio(false);
       }}
     >
