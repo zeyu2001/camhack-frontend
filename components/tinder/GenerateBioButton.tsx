@@ -5,10 +5,14 @@ import { useState } from "react";
 
 export function GenerateBioButton({
   userPrompt,
+  quizResponses,
+  userInterests,
   setGeneratedBio,
 }: Readonly<{
   userPrompt: string;
   setGeneratedBio: (bio: string) => void;
+  quizResponses: string[];
+  userInterests: string[];
 }>): JSX.Element {
   const [instagramItems, loading] = useInstagramMedia();
   const [generatingBio, setGeneratingBio] = useState(false);
@@ -36,9 +40,18 @@ export function GenerateBioButton({
           base64Images.push(base64.split(",")[1]);
         }
 
+        const tinderUserInfo = `Interests: ${userInterests.join(
+          ", "
+        )}\nQuiz Responses: ${quizResponses.join("\n")}`;
+
+        console.log(tinderUserInfo);
+
         const payload = {
-          images: base64Images,
-          prompt: userPrompt,
+          instaImages: base64Images,
+          instaCaptions: instagramItems.map((item) => item.caption),
+          userPrompt: userPrompt,
+          tinderUserInfo: tinderUserInfo,
+          tinderQuestions: [],
         };
 
         const res = await fetch("https://developer314159.pythonanywhere.com/", {

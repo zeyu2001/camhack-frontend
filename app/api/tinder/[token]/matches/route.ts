@@ -13,7 +13,7 @@ export async function GET(
   }
 
   const res = await fetch(
-    "https://api.gotinder.com/v2/matches?locale=en&count=60&message=1",
+    "https://api.gotinder.com/v2/matches?locale=en&count=100",
     {
       headers: {
         "Content-Type": "application/json",

@@ -3,6 +3,7 @@ import { ThreeDots } from "react-loader-spinner";
 import { GenerateBioButton } from "./GenerateBioButton";
 import { UserPromptDialog } from "./UserPromptDialog";
 import { SyncButton } from "./SyncButton";
+import { Badge } from "@/components/ui/badge";
 
 export const Profile = () => {
   const [name, setName] = useState("");
@@ -12,6 +13,8 @@ export const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [generatedBio, setGeneratedBio] = useState("");
   const [userPrompt, setUserPrompt] = useState("");
+  const [userInterests, setUserInterests] = useState<string[]>([]);
+  const [quizResponses, setQuizResponses] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,7 +32,27 @@ export const Profile = () => {
       const birthDate = new Date(data.user.birth_date);
       const now = new Date();
       setAge(now.getFullYear() - birthDate.getFullYear());
-      setLocation(data.user.pos_info.country.name);
+      setLocation(
+        `${data.user.city.name}, ${data.user.city.region}, ${data.user.pos_info.country.name}`
+      );
+
+      const interests = data.user.user_interests.selected_interests.map(
+        (interest) => interest.name
+      );
+
+      const quizzes = data.user.sparks_quizzes;
+      const responses = quizzes.map((quiz) =>
+        quiz.quizzes
+          .map((q) =>
+            q.answer_details
+              .map((answer) => `${answer.prompt_text}: ${answer.answer_text}`)
+              .join(", ")
+          )
+          .join(", ")
+      );
+
+      setUserInterests(interests);
+      setQuizResponses(responses);
       setLoading(false);
     };
     fetchData();
@@ -52,7 +75,17 @@ export const Profile = () => {
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="text-sm/6 font-medium text-white">About you</dt>
             <dd className="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0">
-              {name}, {age}, in {location}
+              <span className="text-white">{name}</span>,{" "}
+              <span className="text-white">{age}</span> years old, living in{" "}
+              <span className="text-white">{location}</span>
+            </dd>
+          </div>
+          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt className="text-sm/6 font-medium text-white">Interests</dt>
+            <dd className="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0 flex gap-2">
+              {userInterests.map((interest, idx) => (
+                <Badge key={idx}>{interest}</Badge>
+              ))}
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -103,6 +136,8 @@ export const Profile = () => {
           <GenerateBioButton
             setGeneratedBio={setGeneratedBio}
             userPrompt={userPrompt}
+            userInterests={userInterests}
+            quizResponses={quizResponses}
           />
           <UserPromptDialog
             setUserPrompt={setUserPrompt}

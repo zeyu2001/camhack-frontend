@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 interface Match {
   name: string;
   age: number;
   bio: string;
   photo: string;
+  liked_content: string[];
+  last_activity_date: string;
 }
 
 export const Matches = () => {
@@ -30,7 +38,16 @@ export const Matches = () => {
           new Date(match.person.birth_date).getFullYear(),
         bio: match.person.bio,
         photo: match.person.photos[0].url,
+        liked_content: [
+          match.liked_content?.by_closer?.photo?.url,
+          match.liked_content?.by_opener?.photo?.url,
+        ].filter((url) => url),
+        last_activity_date: new Date(
+          match.last_activity_date
+        ).toLocaleDateString(),
       }));
+
+      console.log(matches);
 
       setMatches(matches);
       setLoading(false);
@@ -75,6 +92,33 @@ export const Matches = () => {
                     ))}
                 </p>
               </div>
+            </div>
+            <div className="flex flex-col items-end justify-center">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline">Match Details</Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80">
+                  <div className="p-4">
+                    {match.liked_content.length > 0 && (
+                      <>
+                        <h2 className="font-semibold text-white pb-4">
+                          Liked Content
+                        </h2>
+                        {match.liked_content.map((url) => (
+                          <img
+                            key={url}
+                            className="w-full h-48 object-cover rounded-md mb-4"
+                            src={url}
+                            alt="Liked content"
+                          />
+                        ))}
+                      </>
+                    )}
+                    <p>Last activity at {match.last_activity_date}</p>
+                  </div>
+                </PopoverContent>
+              </Popover>
             </div>
           </li>
         ))}
