@@ -11,7 +11,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen p-8 pb-20 gap-16 font-[family-name:var(--font-geist-sans)]">
-      <main className="dark text-gray-100">
+      <main className="text-gray-100">
         <h2 className="text-5xl font-semibold tracking-tight sm:text-7xl text-center">
           &#xac; Catfish
         </h2>

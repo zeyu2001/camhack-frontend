@@ -25,7 +25,6 @@ export const Matches = () => {
       }));
 
       setMatches(matches);
-      console.log(matches);
       setLoading(false);
     };
     fetchData();

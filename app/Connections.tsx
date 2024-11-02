@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { clsx } from "clsx";
 import { InstagramConnectButton } from "@/components/InstagramConnectButton";
 import { DisconnectButton } from "@/components/DisconnectButton";
 import { TinderConnectButton } from "@/components/TinderConnectButton";
+import { InstagramDetails } from "@/components/instagram/InstagramDetails";
 
 export default function Connections({
   tinderConnected,
@@ -41,11 +42,14 @@ export default function Connections({
       name: "Instagram",
       connected: instagramConnected,
       button: instagramConnected ? (
-        <DisconnectButton
-          variant="instagram"
-          setTinderConnected={setTinderConnected}
-          setInstagramConnected={setInstagramConnected}
-        />
+        <div className="gap-2 flex items-center">
+          <DisconnectButton
+            variant="instagram"
+            setTinderConnected={setTinderConnected}
+            setInstagramConnected={setInstagramConnected}
+          />
+          <InstagramDetails />
+        </div>
       ) : (
         <InstagramConnectButton setConnected={setInstagramConnected} />
       ),

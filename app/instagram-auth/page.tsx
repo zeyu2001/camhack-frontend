@@ -15,7 +15,7 @@ export default function InstagramAuth() {
       );
       const token = data.access_token;
       localStorage.setItem("instagramToken", token);
-      router.push("/");
+      window.location.href = "/";
     };
     fetchData();
   }, [code]);
