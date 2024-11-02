@@ -99,7 +99,9 @@ export const Profile = ({
             <dt className="text-sm/6 font-medium text-white">Interests</dt>
             <dd className="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0 flex gap-2">
               {userInterests.map((interest, idx) => (
-                <Badge key={idx}>{interest}</Badge>
+                <Badge variant="secondary" key={idx}>
+                  {interest}
+                </Badge>
               ))}
             </dd>
           </div>
