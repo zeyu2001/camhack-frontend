@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { ThreeDots } from "react-loader-spinner";
 
 export const Profile = () => {
-  const [name, setName] = useState("John Doe");
-  const [bio, setBio] = useState("test");
+  const [name, setName] = useState("");
+  const [bio, setBio] = useState("");
   const [age, setAge] = useState(25);
-  const [location, setLocation] = useState("New York, NY");
+  const [location, setLocation] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,7 +17,6 @@ export const Profile = () => {
         .json()
         .then((data) => data.data)
         .then((data) => data.data);
-      console.log(data);
 
       setName(data.user.name);
       setBio(data.user.bio);
@@ -24,9 +25,18 @@ export const Profile = () => {
       const now = new Date();
       setAge(now.getFullYear() - birthDate.getFullYear());
       setLocation(data.user.pos_info.country.name);
+      setLoading(false);
     };
     fetchData();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-8 flex justify-center items-center h-96">
+        <ThreeDots color="#ffffff" />
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">

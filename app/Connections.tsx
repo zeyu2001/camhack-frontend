@@ -17,9 +17,10 @@ export default function Connections({
 }>): JSX.Element {
   useEffect(() => {
     const tinderToken = window.localStorage.getItem("tinderToken");
-    if (tinderToken) {
-      setTinderConnected(true);
-    }
+    const instagramToken = window.localStorage.getItem("instagramToken");
+
+    setTinderConnected(!!tinderToken);
+    setInstagramConnected(!!instagramToken);
   });
 
   const connections = [
@@ -27,7 +28,11 @@ export default function Connections({
       name: "Tinder",
       connected: tinderConnected,
       button: tinderConnected ? (
-        <DisconnectButton />
+        <DisconnectButton
+          variant="tinder"
+          setTinderConnected={setTinderConnected}
+          setInstagramConnected={setInstagramConnected}
+        />
       ) : (
         <TinderConnectButton setConnected={setTinderConnected} />
       ),
@@ -35,14 +40,22 @@ export default function Connections({
     {
       name: "Instagram",
       connected: instagramConnected,
-      button: <InstagramConnectButton setConnected={setInstagramConnected} />,
+      button: instagramConnected ? (
+        <DisconnectButton
+          variant="instagram"
+          setTinderConnected={setTinderConnected}
+          setInstagramConnected={setInstagramConnected}
+        />
+      ) : (
+        <InstagramConnectButton setConnected={setInstagramConnected} />
+      ),
       setInstagramConnected,
     },
   ];
 
   return (
     <div className="border-b border-b-gray-900/10 lg:border-t lg:border-t-gray-900/5">
-      <dl className="mx-auto grid max-w-7xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-2 xl:px-0">
+      <dl className="mx-auto grid max-w-2xl grid-cols-2 lg:px-2 xl:px-0">
         {connections.map((conn, connIdx) => (
           <div
             key={conn.name}
