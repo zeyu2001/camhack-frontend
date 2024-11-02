@@ -29,12 +29,23 @@ export async function GET(
 
 
 export async function POST(
-    request: NextRequest, images: string[], prompt: string
+    request: NextRequest, 
+    instaImages: string[], 
+    instaCaptions: string[], 
+    tinderUserInfo: string[],
+    userPrompt: string, 
+    tinderQuestions: string[], 
+    tinderMatchesInfo: string[]
+
   ) {
   
     const payload = {
-      images: images,
-      prompt: prompt,
+      instaImages: instaImages,
+      instaCaptions: instaCaptions, 
+      tinderUserInfo: tinderUserInfo,
+      userPrompt: userPrompt, 
+      tinderQuestions: tinderQuestions, 
+      tinderMatchesInfo: tinderMatchesInfo
     };
   
     const res = await fetch(
