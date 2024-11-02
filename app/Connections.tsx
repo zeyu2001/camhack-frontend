@@ -4,10 +4,17 @@ import { InstagramConnectButton } from "@/components/InstagramConnectButton";
 import { DisconnectButton } from "@/components/DisconnectButton";
 import { TinderConnectButton } from "@/components/TinderConnectButton";
 
-export default function Connections() {
-  const [tinderConnected, setTinderConnected] = useState(false);
-  const [instagramConnected, setInstagramConnected] = useState(false);
-
+export default function Connections({
+  tinderConnected,
+  setTinderConnected,
+  instagramConnected,
+  setInstagramConnected,
+}: Readonly<{
+  tinderConnected: boolean;
+  setTinderConnected: (connected: boolean) => void;
+  instagramConnected: boolean;
+  setInstagramConnected: (connected: boolean) => void;
+}>): JSX.Element {
   useEffect(() => {
     const tinderToken = window.localStorage.getItem("tinderToken");
     if (tinderToken) {
