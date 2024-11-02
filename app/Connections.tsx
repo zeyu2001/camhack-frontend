@@ -1,20 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { clsx } from "clsx";
-import { ConnectButton } from "@/components/ConnectButton";
+import { InstagramConnectButton } from "@/components/InstagramConnectButton";
 import { DisconnectButton } from "@/components/DisconnectButton";
+import { TinderConnectButton } from "@/components/TinderConnectButton";
 
 export default function Connections() {
   const [tinderConnected, setTinderConnected] = useState(false);
   const [instagramConnected, setInstagramConnected] = useState(false);
 
+  useEffect(() => {
+    const tinderToken = window.localStorage.getItem("tinderToken");
+    if (tinderToken) {
+      setTinderConnected(true);
+    }
+  });
+
   const connections = [
     {
       name: "Tinder",
       connected: tinderConnected,
+      button: tinderConnected ? (
+        <DisconnectButton />
+      ) : (
+        <TinderConnectButton setConnected={setTinderConnected} />
+      ),
     },
     {
       name: "Instagram",
       connected: instagramConnected,
+      button: <InstagramConnectButton setConnected={setInstagramConnected} />,
+      setInstagramConnected,
     },
   ];
 
@@ -42,8 +57,8 @@ export default function Connections() {
             >
               {conn.connected ? "Connected" : "Not connected"}
             </dd>
-            <dd className="w-full flex-none text-3xl/10 font-medium tracking-tight text-gray-900">
-              {conn.connected ? <DisconnectButton /> : <ConnectButton />}
+            <dd className="w-full flex-none text-3xl/10 font-medium tracking-tight">
+              {conn.button}
             </dd>
           </div>
         ))}
