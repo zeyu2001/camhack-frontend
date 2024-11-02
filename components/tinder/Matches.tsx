@@ -53,7 +53,19 @@ export const Matches = () => {
               <div className="ml-4">
                 <p className="text-sm font-medium">{match.name}</p>
                 <p className="text-sm text-gray-500">{match.age}</p>
-                <p className="text-sm text-gray-500">{match.bio}</p>
+                <p className="text-sm text-gray-500">
+                  {match.bio
+                    ?.trim()
+                    .split("\n")
+                    .map((line, idx) => (
+                      <>
+                        <span key={idx} className="text-sm">
+                          {line}
+                        </span>
+                        <br />
+                      </>
+                    ))}
+                </p>
               </div>
             </div>
           </li>

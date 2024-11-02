@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
+import { GenerateBioButton } from "./GenerateBioButton";
+import { UserPromptDialog } from "./UserPromptDialog";
 
 export const Profile = () => {
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
-  const [age, setAge] = useState(25);
+  const [age, setAge] = useState(20);
   const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(true);
+  const [generatedBio, setGeneratedBio] = useState("");
+  const [userPrompt, setUserPrompt] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,10 +57,50 @@ export const Profile = () => {
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="text-sm/6 font-medium text-white">Profile Bio</dt>
             <dd className="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0">
-              {bio}
+              {bio
+                .trim()
+                .split("\n")
+                .map((line, idx) => (
+                  <>
+                    <span key={`bio-${idx}`} className="text-sm">
+                      {line}
+                    </span>
+                    <br />
+                  </>
+                ))}
+              <br />
+              {generatedBio && (
+                <h2 className="text-sm/6 font-medium text-white">
+                  Generated Bio
+                </h2>
+              )}
+              {generatedBio
+                ?.trim()
+                .split("\n")
+                .map((line, idx) => (
+                  <>
+                    <span
+                      key={`generated-bio-${idx}`}
+                      className="text-sm text-green-500"
+                    >
+                      {line}
+                    </span>
+                    <br />
+                  </>
+                ))}
             </dd>
           </div>
         </dl>
+        <div className="flex justify-end px-4 py-6 sm:px-0">
+          <GenerateBioButton
+            setGeneratedBio={setGeneratedBio}
+            userPrompt={userPrompt}
+          />
+          <UserPromptDialog
+            setUserPrompt={setUserPrompt}
+            userPrompt={userPrompt}
+          />
+        </div>
       </div>
     </div>
   );

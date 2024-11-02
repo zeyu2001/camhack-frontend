@@ -25,35 +25,3 @@ export async function GET(
 
   return Response.json({ data });
 }
-
-
-
-export async function POST(
-    request: NextRequest, images: string[], prompt: string
-  ) {
-  
-    const payload = {
-      images: images,
-      prompt: prompt,
-    };
-  
-    const res = await fetch(
-      "https://developer314159.pythonanywhere.com/",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload), // Convert the payload to a JSON string
-      }
-    );
-  
-    if (!res.ok) {
-      return new Response("Error with the request", { status: res.status });
-    }
-  
-    const data = await res.json();
-  
-    return Response.json({ data });
-  }
-  

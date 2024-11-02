@@ -9,33 +9,12 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { useEffect, useState } from "react";
 import { InstagramMedia } from "./InstagramMedia";
-
-interface Item {
-  id: string;
-  url: string;
-  username: string;
-  caption: string;
-}
+import { useInstagramMedia } from "@/app/hooks/useInstagramMedia";
+import { ThreeDots } from "react-loader-spinner";
 
 export function InstagramDetails() {
-  const [item, setItems] = useState<Item>([]);
-
-  useEffect(() => {
-    if (!localStorage.getItem("instagramToken")) {
-      return;
-    }
-
-    const fetchData = async () => {
-      const res = await fetch(
-        `/api/instagram/media/${localStorage.getItem("instagramToken")}`
-      );
-      const data = await res.json();
-      setItems(data);
-    };
-    fetchData();
-  }, []);
+  const [items, loading] = useInstagramMedia();
 
   return (
     <Drawer>
@@ -50,13 +29,19 @@ export function InstagramDetails() {
               These will be used to generate your profile and recommendations.
             </DrawerDescription>
           </DrawerHeader>
-          <div className="grid grid-cols-5 gap-4">
-            {item.map((item) => (
-              <div key={item.id} className="flex gap-4">
-                <InstagramMedia url={item.url} caption={item.caption} />
-              </div>
-            ))}
-          </div>
+          {loading ? (
+            <div className="container mx-auto px-4 py-8 flex justify-center items-center h-96">
+              <ThreeDots color="#ffffff" />
+            </div>
+          ) : (
+            <div className="grid grid-cols-5 gap-4">
+              {items.map((item) => (
+                <div key={item.id} className="flex gap-4">
+                  <InstagramMedia url={item.url} caption={item.caption} />
+                </div>
+              ))}
+            </div>
+          )}
           <DrawerFooter>
             <DrawerClose asChild>
               <Button variant="outline">Close</Button>
