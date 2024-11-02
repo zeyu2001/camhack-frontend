@@ -8,6 +8,7 @@ import { Matches } from "@/components/tinder/Matches";
 export default function Home() {
   const [tinderConnected, setTinderConnected] = useState<boolean>(false);
   const [instagramConnected, setInstagramConnected] = useState<boolean>(false);
+  const [bio, setBio] = useState("");
 
   return (
     <div className="min-h-screen p-8 pb-20 gap-16 font-[family-name:var(--font-geist-sans)]">
@@ -23,8 +24,8 @@ export default function Home() {
         />
         {tinderConnected && (
           <>
-            <Profile />
-            <Matches />
+            <Profile bio={bio} setBio={setBio} />
+            <Matches bio={bio} />
           </>
         )}
       </main>

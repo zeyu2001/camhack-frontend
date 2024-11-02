@@ -5,9 +5,14 @@ import { UserPromptDialog } from "./UserPromptDialog";
 import { SyncButton } from "./SyncButton";
 import { Badge } from "@/components/ui/badge";
 
-export const Profile = () => {
+export const Profile = ({
+  bio,
+  setBio,
+}: Readonly<{
+  bio: string;
+  setBio: (bio: string) => void;
+}>): JSX.Element => {
   const [name, setName] = useState("");
-  const [bio, setBio] = useState("");
   const [age, setAge] = useState(20);
   const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(true);

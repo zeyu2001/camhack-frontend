@@ -6,6 +6,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import clsx from "clsx";
 
 interface Match {
   name: string;
@@ -16,9 +22,14 @@ interface Match {
   last_activity_date: string;
 }
 
-export const Matches = () => {
+export const Matches = ({
+  bio,
+}: Readonly<{
+  bio: string;
+}>): JSX.Element => {
   const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(true);
+  const [recommendedMatches, setRecommendedMatches] = useState<number[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,6 +66,32 @@ export const Matches = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    async function fetchData() {
+      if (matches.length === 0) return;
+      if (bio.trim().length === 0) return;
+
+      const payload = {
+        userBio: bio,
+        tinderMatchesInfo: matches.map((match) => match.bio),
+      };
+      const res = await fetch(
+        "https://flowingpurplecrane.pythonanywhere.com/matches",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+      const data = await res.json();
+      console.log(data);
+      setRecommendedMatches(eval(data["top 3"]));
+    }
+    fetchData();
+  }, [bio, matches]);
+
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-8 flex justify-center items-center h-96">
@@ -65,16 +102,40 @@ export const Matches = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-white">Matches</h1>
-      <ul role="list" className="divide-y divide-gray-100">
-        {matches.map((match: Match) => (
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-2xl font-bold text-white">Matches</h1>
+        <Button variant="outline">Generate Opening Lines</Button>
+      </div>
+      <ul className="divide-y divide-gray-100">
+        {matches.map((match: Match, idx) => (
           <li key={match.name} className="flex justify-between gap-x-6 py-5">
             <div className="flex min-w-0 gap-x-4">
-              <img
-                className="w-12 h-12 rounded-full"
-                src={match.photo}
-                alt={match.name}
-              />
+              <span className="relative flex-shrink-0">
+                {recommendedMatches.includes(idx) ? (
+                  <HoverCard>
+                    <HoverCardTrigger>
+                      <span className="animate-ping absolute inline-flex rounded-full bg-green-700 h-12 w-12"></span>
+                      <img
+                        className={clsx(
+                          "w-12 h-12 rounded-full relative ring-2 ring-green-500"
+                        )}
+                        src={match.photo}
+                        alt={match.name}
+                      />
+                    </HoverCardTrigger>
+                    <HoverCardContent className="text-sm">
+                      This match is recommended for you based on both of your
+                      profiles, interests, and activities.
+                    </HoverCardContent>
+                  </HoverCard>
+                ) : (
+                  <img
+                    className={clsx("w-12 h-12 rounded-full relative")}
+                    src={match.photo}
+                    alt={match.name}
+                  />
+                )}
+              </span>
               <div className="ml-4">
                 <p className="text-sm font-medium">{match.name}</p>
                 <p className="text-sm text-gray-500">{match.age}</p>
