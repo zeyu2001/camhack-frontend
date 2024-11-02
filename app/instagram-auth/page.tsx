@@ -1,12 +1,11 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { ThreeDots } from "react-loader-spinner";
 
 export default function InstagramAuth() {
   const params = useSearchParams();
   const code = params.get("code");
-  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {

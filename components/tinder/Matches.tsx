@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 
+interface Match {
+  name: string;
+  age: number;
+  bio: string;
+  photo: string;
+}
+
 export const Matches = () => {
-  const [matches, setMatches] = useState([]);
+  const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,6 +22,7 @@ export const Matches = () => {
         .then((data) => data.data)
         .then((data) => data.data);
 
+      // @ts-expect-error - unknown type
       const matches = data.matches.map((match) => ({
         name: match.person.name,
         age:
@@ -42,7 +50,7 @@ export const Matches = () => {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold text-white">Matches</h1>
       <ul role="list" className="divide-y divide-gray-100">
-        {matches.map((match) => (
+        {matches.map((match: Match) => (
           <li key={match.name} className="flex justify-between gap-x-6 py-5">
             <div className="flex min-w-0 gap-x-4">
               <img

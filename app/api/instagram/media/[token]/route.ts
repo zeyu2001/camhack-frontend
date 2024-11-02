@@ -19,11 +19,13 @@ export async function GET(
 
   const firstFiveImages = data.data
     .filter(
+      // @ts-expect-error - unknown type
       (item) =>
         item.media_type === "IMAGE" || item.media_type === "CAROUSEL_ALBUM"
     )
     .slice(0, 5);
 
+  // @ts-expect-error - unknown type
   const result = firstFiveImages.map((item) => {
     return {
       id: item.id,

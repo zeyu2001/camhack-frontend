@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { GenerateBioButton } from "./GenerateBioButton";
 import { UserPromptDialog } from "./UserPromptDialog";
+import { SyncButton } from "./SyncButton";
 
 export const Profile = () => {
   const [name, setName] = useState("");
@@ -91,7 +92,14 @@ export const Profile = () => {
             </dd>
           </div>
         </dl>
-        <div className="flex justify-end px-4 py-6 sm:px-0">
+        <div className="flex justify-end px-4 py-6 sm:px-0 sm:gap-2">
+          {generatedBio && (
+            <SyncButton
+              bio={generatedBio}
+              setGeneratedBio={setGeneratedBio}
+              setBio={setBio}
+            />
+          )}
           <GenerateBioButton
             setGeneratedBio={setGeneratedBio}
             userPrompt={userPrompt}
