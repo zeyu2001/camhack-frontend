@@ -15,6 +15,7 @@ import clsx from "clsx";
 import { useFetchMatches } from "@/app/hooks/useFetchMatches";
 import { useFetchRecommendations } from "@/app/hooks/useFetchRecommendations";
 import { OpeningLinePopover } from "./OpeningLinePopover";
+import { DateIdeaSheet } from "./DateIdeaSheet";
 
 export const Matches = ({
   bio,
@@ -109,6 +110,7 @@ export const Matches = ({
               </div>
               <div className="flex flex-col items-end justify-center">
                 <div className="flex gap-2">
+                  <DateIdeaSheet />
                   <OpeningLinePopover match={match} />
                   <Popover>
                     <PopoverTrigger asChild>
