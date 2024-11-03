@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -15,6 +14,7 @@ import {
 import clsx from "clsx";
 import { useFetchMatches } from "@/app/hooks/useFetchMatches";
 import { useFetchRecommendations } from "@/app/hooks/useFetchRecommendations";
+import { OpeningLinePopover } from "./OpeningLinePopover";
 
 export const Matches = ({
   bio,
@@ -108,31 +108,40 @@ export const Matches = ({
                 </div>
               </div>
               <div className="flex flex-col items-end justify-center">
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline">Match Details</Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-80">
-                    <div className="p-4">
-                      {match.liked_content.length > 0 && (
-                        <>
-                          <h2 className="font-semibold text-white pb-4">
-                            Liked Content
-                          </h2>
-                          {match.liked_content.map((url) => (
-                            <img
-                              key={url}
-                              className="w-full h-48 object-cover rounded-md mb-4"
-                              src={url}
-                              alt="Liked content"
-                            />
-                          ))}
-                        </>
-                      )}
-                      <p>Last activity at {match.last_activity_date}</p>
-                    </div>
-                  </PopoverContent>
-                </Popover>
+                <div className="flex gap-2">
+                  <OpeningLinePopover match={match} />
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline">Match Details</Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-80">
+                      <div className="p-4">
+                        {match.liked_content.length > 0 && (
+                          <>
+                            <h2 className="font-semibold text-white pb-4">
+                              Photos you and {match.name} liked
+                            </h2>
+                            {match.liked_content.map((url) => (
+                              <img
+                                key={url}
+                                className="w-full h-48 object-cover rounded-md mb-4"
+                                src={url}
+                                alt="Liked content"
+                              />
+                            ))}
+                          </>
+                        )}
+                        <p className="text-sm text-gray-400">
+                          You last talked on{" "}
+                          <span className="text-white">
+                            {match.last_activity_date}
+                          </span>
+                          . Keep the conversation going!
+                        </p>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
               </div>
             </li>
           ))}
