@@ -11,18 +11,27 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Match } from "@/app/hooks/useFetchMatches";
+import { MagicWandIcon } from "@radix-ui/react-icons";
 
-export function DateIdeaSheet() {
+export function DateIdeaSheet({
+  match,
+}: Readonly<{
+  match: Match;
+}>): JSX.Element {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">Open</Button>
+        <Button variant="outline">
+          <MagicWandIcon /> Date ideas
+        </Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Edit profile</SheetTitle>
+          <SheetTitle>Date ideas with {match.name}</SheetTitle>
           <SheetDescription>
-            Make changes to your profile here. Click save when you're done.
+            Events and activities happening in your area that match both of your
+            interests.
           </SheetDescription>
         </SheetHeader>
         <div className="grid gap-4 py-4">

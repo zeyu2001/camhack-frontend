@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 export interface Match {
   id: string;
+  person_id: string;
   name: string;
   age: number;
   bio: string;
@@ -28,12 +29,10 @@ export const useFetchMatches = () => {
       // @ts-expect-error - unknown type
       const matches = [];
       for (const match of data.matches) {
-        const id = match.person._id.slice(-24);
-
         const resp = await fetch(
-          `/api/tinder/${window.localStorage.getItem(
-            "tinderToken"
-          )}/matches/${id}`
+          `/api/tinder/${window.localStorage.getItem("tinderToken")}/matches/${
+            match.person._id
+          }`
         );
 
         const data = await resp
@@ -42,13 +41,14 @@ export const useFetchMatches = () => {
           .then((data) => data.results);
 
         matches.push({
-          id,
+          id: match._id,
+          person_id: match.person._id,
           name: match.person.name,
           age:
             new Date().getFullYear() -
             new Date(match.person.birth_date).getFullYear(),
           bio: match.person.bio,
-          photo: match.person.photos[0].url,
+          photo: match.person.photos[0].processedFiles[0].url,
           liked_content: [
             match.liked_content?.by_closer?.photo?.url,
             match.liked_content?.by_opener?.photo?.url,

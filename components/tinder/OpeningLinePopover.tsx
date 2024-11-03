@@ -1,29 +1,49 @@
 import { Match } from "@/app/hooks/useFetchMatches";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ChatBubbleIcon, CheckIcon } from "@radix-ui/react-icons";
-import { EditIcon, SaveIcon, Send, SendIcon } from "lucide-react";
-import { useState } from "react";
+import { ChatBubbleIcon, CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
+import { EditIcon, SendIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
-export function OpeningLinePopover({ match }: { match: Match }): JSX.Element {
+export function OpeningLinePopover({
+  match,
+  opening,
+  openingsLoading,
+}: Readonly<{
+  match: Match;
+  opening: string;
+  openingsLoading: boolean;
+}>): JSX.Element {
   const [isEditing, setIsEditing] = useState(false);
   const [tempOpeningLine, setTempOpeningLine] = useState("");
-  const [openingLine, setOpeningLine] = useState("Skibidi rizz rizz");
+  const [openingLine, setOpeningLine] = useState(
+    opening || "Skibidi rizz rizz"
+  );
+
+  useEffect(() => {
+    if (opening) {
+      setOpeningLine(opening);
+      setTempOpeningLine(opening);
+    }
+  }, [opening]);
 
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline">
-          <ChatBubbleIcon />
+        <Button variant="outline" disabled={openingsLoading}>
+          {openingsLoading ? (
+            <ReloadIcon className="h-4 w-4 animate-spin" />
+          ) : (
+            <ChatBubbleIcon />
+          )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full">
+      <PopoverContent className="w-96">
         <div className="grid gap-4">
           <div className="space-y-2">
             <h4 className="font-medium leading-none">
@@ -39,6 +59,7 @@ export function OpeningLinePopover({ match }: { match: Match }): JSX.Element {
                 <Input
                   id="opening"
                   onChange={(e) => setTempOpeningLine(e.target.value)}
+                  value={tempOpeningLine}
                 />
               ) : (
                 <span className="text-sm text-white">{openingLine}</span>
@@ -70,7 +91,27 @@ export function OpeningLinePopover({ match }: { match: Match }): JSX.Element {
                   Edit
                 </Button>
               )}
-              <Button variant="outline" className="w-full">
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => {
+                  fetch(
+                    `/api/tinder/${window.localStorage.getItem(
+                      "tinderToken"
+                    )}/matches/${match.id}`,
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        message: openingLine,
+                        matchId: match.id,
+                      }),
+                    }
+                  );
+                }}
+              >
                 <SendIcon />
                 Send
               </Button>

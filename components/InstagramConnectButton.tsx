@@ -12,7 +12,7 @@ export function InstagramConnectButton({
       onClick={() => {
         setConnected(true);
         router.push(
-          `https://api.instagram.com/oauth/authorize?client_id=1103578951260569&redirect_uri=https://ecfb-131-111-5-201.ngrok-free.app/instagram-auth&scope=user_profile,user_media&response_type=code`
+          `https://api.instagram.com/oauth/authorize?client_id=1103578951260569&redirect_uri=https://0013-131-111-5-201.ngrok-free.app/instagram-auth&scope=user_profile,user_media&response_type=code`
         );
       }}
     >

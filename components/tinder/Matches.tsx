@@ -16,6 +16,7 @@ import { useFetchMatches } from "@/app/hooks/useFetchMatches";
 import { useFetchRecommendations } from "@/app/hooks/useFetchRecommendations";
 import { OpeningLinePopover } from "./OpeningLinePopover";
 import { DateIdeaSheet } from "./DateIdeaSheet";
+import { useFetchOpenings } from "@/app/hooks/useFetchOpenings";
 
 export const Matches = ({
   bio,
@@ -25,6 +26,11 @@ export const Matches = ({
   const [matches, matchesLoading] = useFetchMatches();
   const [recommendedMatches, recommendedMatchesLoading] =
     useFetchRecommendations(bio, matches);
+  const [openings, openingsLoading] = useFetchOpenings(
+    matches,
+    recommendedMatches,
+    bio
+  );
 
   if (matchesLoading) {
     return (
@@ -42,7 +48,7 @@ export const Matches = ({
       </div>
       {recommendedMatchesLoading && (
         <div className="flex justify-center items-center">
-          Finding best matches... <ThreeDots color="#ffffff" />
+          Finding best matches <ThreeDots color="#ffffff" />
         </div>
       )}
       <ul className="divide-y divide-gray-100">
@@ -110,8 +116,12 @@ export const Matches = ({
               </div>
               <div className="flex flex-col items-end justify-center">
                 <div className="flex gap-2">
-                  <DateIdeaSheet />
-                  <OpeningLinePopover match={match} />
+                  <OpeningLinePopover
+                    match={match}
+                    opening={openings.find((o) => o.id === match.id)?.opening}
+                    openingsLoading={openingsLoading}
+                  />
+                  <DateIdeaSheet match={match} />
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button variant="outline">Match Details</Button>

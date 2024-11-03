@@ -4,8 +4,8 @@ import { Match } from "./useFetchMatches";
 export const useFetchRecommendations = (
   bio: string,
   matches: Match[]
-): [number[], boolean] => {
-  const [recommendedMatches, setRecommendedMatches] = useState<number[]>([]);
+): [string[], boolean] => {
+  const [recommendedMatches, setRecommendedMatches] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
