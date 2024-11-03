@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { Match } from "./useFetchMatches";
 
-export const useFetchDateIdeas = (match: Match, bio: string, open: boolean) => {
+export const useFetchDateIdeas = (
+  match: Match,
+  bio: string,
+  open: boolean
+): [{ name: string; link: string }[], boolean] => {
   const [loading, setLoading] = useState(true);
   const [ideas, setIdeas] = useState<{ name: string; link: string }[]>([]);
 
@@ -27,7 +31,7 @@ export const useFetchDateIdeas = (match: Match, bio: string, open: boolean) => {
         }
       );
       const data = await res.json();
-      const ideas = data.recommendations.map((r) => ({
+      const ideas = data.recommendations.map((r: [string, string]) => ({
         name: r[0],
         link: r[1],
       }));

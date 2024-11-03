@@ -5,7 +5,7 @@ export const useFetchOpenings = (
   matches: Match[],
   recommended: string[],
   bio: string
-) => {
+): [{ id: string; opening: string }[], boolean] => {
   const [loading, setLoading] = useState(true);
   const [openings, setOpenings] = useState<{ id: string; opening: string }[]>(
     []
@@ -22,16 +22,16 @@ export const useFetchOpenings = (
       );
       const images = [];
       for (const match of filteredMatches) {
-        const b64Image = await fetch(`https://corsproxy.io/?${match.photo}`)
+        const b64Image = (await fetch(`https://corsproxy.io/?${match.photo}`)
           .then((res) => res.blob())
           .then(
             (blob) =>
               new Promise((resolve) => {
                 const reader = new FileReader();
-                reader.onloadend = () => resolve(reader.result);
+                reader.onloadend = () => resolve(reader.result as string);
                 reader.readAsDataURL(blob);
               })
-          );
+          )) as string;
         images.push(b64Image.split(",")[1]);
       }
 

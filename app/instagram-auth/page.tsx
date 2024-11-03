@@ -1,9 +1,9 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { ThreeDots } from "react-loader-spinner";
 
-export default function InstagramAuth() {
+function Auth() {
   const params = useSearchParams();
   const code = params.get("code");
 
@@ -23,5 +23,13 @@ export default function InstagramAuth() {
     <div className="container mx-auto px-4 py-8 flex justify-center items-center h-screen">
       <ThreeDots color="#ffffff" />
     </div>
+  );
+}
+
+export default function InstagramAuth() {
+  return (
+    <Suspense>
+      <Auth />
+    </Suspense>
   );
 }

@@ -46,20 +46,25 @@ export const Profile = ({
       );
 
       const interests = data.user.user_interests.selected_interests.map(
+        // @ts-expect-error - unkonwn type
         (interest) => interest.name
       );
 
       const quizzes = data.user.sparks_quizzes;
+      // @ts-expect-error - unknown type
       const responses = quizzes.map((quiz) =>
         quiz.quizzes
+          // @ts-expect-error - unknown type
           .map((q) =>
             q.answer_details
+              // @ts-expect-error - unknown type
               .map((answer) => `${answer.prompt_text}: ${answer.answer_text}`)
               .join(", ")
           )
           .join(", ")
       );
 
+      // @ts-expect-error - unknown type
       const prompts = data.user.user_prompts.prompts.map((prompt) => ({
         prompt: prompt.question_text,
         response: prompt.answer_text,

@@ -1,7 +1,5 @@
 import { NextRequest } from "next/server";
 
-export const dynamic = "force-static";
-
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ token: string; id: string }> }

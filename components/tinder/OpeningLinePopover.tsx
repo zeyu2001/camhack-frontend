@@ -16,7 +16,7 @@ export function OpeningLinePopover({
   openingsLoading,
 }: Readonly<{
   match: Match;
-  opening: string;
+  opening: string | undefined;
   openingsLoading: boolean;
 }>): JSX.Element {
   const [isEditing, setIsEditing] = useState(false);

@@ -12,7 +12,7 @@ export interface Match {
   interests: string[];
 }
 
-export const useFetchMatches = () => {
+export const useFetchMatches = (): [Match[], boolean] => {
   const [loading, setLoading] = useState(true);
   const [matches, setMatches] = useState<Match[]>([]);
 
@@ -26,7 +26,6 @@ export const useFetchMatches = () => {
         .then((data) => data.data)
         .then((data) => data.data);
 
-      // @ts-expect-error - unknown type
       const matches = [];
       for (const match of data.matches) {
         const resp = await fetch(
@@ -57,6 +56,7 @@ export const useFetchMatches = () => {
             match.last_activity_date
           ).toLocaleDateString(),
           interests: data.user_interests.selected_interests.map(
+            // @ts-expect-error - unkonwn type
             (interest) => interest.name
           ),
         });

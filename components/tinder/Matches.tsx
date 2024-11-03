@@ -12,7 +12,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import clsx from "clsx";
-import { useFetchMatches } from "@/app/hooks/useFetchMatches";
+import { Match, useFetchMatches } from "@/app/hooks/useFetchMatches";
 import { useFetchRecommendations } from "@/app/hooks/useFetchRecommendations";
 import { OpeningLinePopover } from "./OpeningLinePopover";
 import { DateIdeaSheet } from "./DateIdeaSheet";
