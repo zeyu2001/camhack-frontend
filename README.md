@@ -34,18 +34,18 @@ Technical Stack:
 
 ## Gallery
 
-![](docs/1.jpg)
+![](docs/1.png)
 
-![](docs/2.jpg)
+![](docs/2.png)
 
-![](docs/3.jpg)
+![](docs/3.png)
 
-![](docs/4.jpg)
+![](docs/4.png)
 
-![](docs/5.jpg)
+![](docs/5.png)
 
-![](docs/6.jpg)
+![](docs/6.png)
 
-![](docs/7.jpg)
+![](docs/7.png)
 
-![](docs/8.jpg)
+![](docs/8.png)
