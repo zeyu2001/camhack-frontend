@@ -13,9 +13,16 @@ export default function Home() {
   return (
     <div className="min-h-screen p-8 pb-20 gap-16 font-[family-name:var(--font-geist-sans)]">
       <main className="text-gray-100">
-        <h2 className="text-5xl font-semibold tracking-tight sm:text-7xl text-center">
-          &#xac; Catfish
-        </h2>
+        <div className="flex items-center justify-center gap-4">
+          <h1 className="text-5xl font-semibold tracking-tight sm:text-7xl text-center ">
+            &#xac; Catfish
+          </h1>
+          <img
+            src="/logo.png"
+            alt="Catfish Logo"
+            className="inline-block w-16 h-16"
+          />
+        </div>
         <Connections
           tinderConnected={tinderConnected}
           setTinderConnected={setTinderConnected}
