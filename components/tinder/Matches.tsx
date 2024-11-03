@@ -20,8 +20,10 @@ import { useFetchOpenings } from "@/app/hooks/useFetchOpenings";
 
 export const Matches = ({
   bio,
+  interests,
 }: Readonly<{
   bio: string;
+  interests: string[];
 }>): JSX.Element => {
   const [matches, matchesLoading] = useFetchMatches();
   const [recommendedMatches, recommendedMatchesLoading] =
@@ -106,7 +108,13 @@ export const Matches = ({
                   {
                     <div className="flex gap-2 mt-2">
                       {match.interests.map((interest, idx) => (
-                        <Badge variant="secondary" key={idx}>
+                        <Badge
+                          variant="secondary"
+                          key={idx}
+                          className={clsx(
+                            interests.includes(interest) && "bg-green-800"
+                          )}
+                        >
                           {interest}
                         </Badge>
                       ))}

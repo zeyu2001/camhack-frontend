@@ -8,9 +8,13 @@ import { Badge } from "@/components/ui/badge";
 export const Profile = ({
   bio,
   setBio,
+  userInterests,
+  setUserInterests,
 }: Readonly<{
   bio: string;
   setBio: (bio: string) => void;
+  userInterests: string[];
+  setUserInterests: (interests: string[]) => void;
 }>): JSX.Element => {
   const [name, setName] = useState("");
   const [age, setAge] = useState(20);
@@ -18,7 +22,6 @@ export const Profile = ({
   const [loading, setLoading] = useState(true);
   const [generatedBio, setGeneratedBio] = useState("");
   const [userPrompt, setUserPrompt] = useState("");
-  const [userInterests, setUserInterests] = useState<string[]>([]);
   const [quizResponses, setQuizResponses] = useState<string[]>([]);
   const [prompts, setPrompts] = useState<
     { prompt: string; response: string }[]

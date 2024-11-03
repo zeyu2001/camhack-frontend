@@ -8,6 +8,7 @@ import { Matches } from "@/components/tinder/Matches";
 export default function Home() {
   const [tinderConnected, setTinderConnected] = useState<boolean>(false);
   const [instagramConnected, setInstagramConnected] = useState<boolean>(false);
+  const [userInterests, setUserInterests] = useState<string[]>([]);
   const [bio, setBio] = useState("");
 
   return (
@@ -31,8 +32,13 @@ export default function Home() {
         />
         {tinderConnected && (
           <>
-            <Profile bio={bio} setBio={setBio} />
-            <Matches bio={bio} />
+            <Profile
+              bio={bio}
+              setBio={setBio}
+              setUserInterests={setUserInterests}
+              userInterests={userInterests}
+            />
+            <Matches bio={bio} interests={userInterests} />
           </>
         )}
       </main>
