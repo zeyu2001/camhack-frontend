@@ -60,16 +60,13 @@ export function GenerateBioButton({
           tinderQuestions: tinderQuestions,
         };
 
-        const res = await fetch(
-          "https://flowingpurplecrane.pythonanywhere.com/vision",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload), // Convert the payload to a JSON string
-          }
-        );
+        const res = await fetch("https://camhack-backend.vercel.app/vision", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload), // Convert the payload to a JSON string
+        });
 
         const data = await res.json();
         if (data.error) {

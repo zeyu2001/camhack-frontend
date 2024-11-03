@@ -44,16 +44,13 @@ export const useFetchOpenings = (
       };
       console.log(payload);
 
-      const resp = await fetch(
-        "https://flowingpurplecrane.pythonanywhere.com/opening",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const resp = await fetch("https://camhack-backend.vercel.app/opening", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
       const data = await resp.json();
       console.log(data);
 

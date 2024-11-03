@@ -19,16 +19,13 @@ export const useFetchRecommendations = (
           (match) => `${match.bio}\n Interests: ${match.interests.join(", ")}`
         ),
       };
-      const res = await fetch(
-        "https://flowingpurplecrane.pythonanywhere.com/matches",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const res = await fetch("https://camhack-backend.vercel.app/matches", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
       const data = await res.json();
       console.log(data);
       setRecommendedMatches(

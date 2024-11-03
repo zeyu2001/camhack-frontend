@@ -20,16 +20,13 @@ export const useFetchDateIdeas = (
         )}`,
         tinderUserCity: "Cambridge, United Kingdom",
       };
-      const res = await fetch(
-        "https://flowingpurplecrane.pythonanywhere.com/dates",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const res = await fetch("https://camhack-backend.vercel.app/dates", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
       const data = await res.json();
       const ideas = data.recommendations.map((r: [string, string]) => ({
         name: r[0],
