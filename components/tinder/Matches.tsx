@@ -121,7 +121,7 @@ export const Matches = ({
                     opening={openings.find((o) => o.id === match.id)?.opening}
                     openingsLoading={openingsLoading}
                   />
-                  <DateIdeaSheet match={match} />
+                  <DateIdeaSheet match={match} bio={bio} />
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button variant="outline">Match Details</Button>

@@ -1,6 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Sheet,
   SheetClose,
@@ -12,15 +10,23 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Match } from "@/app/hooks/useFetchMatches";
-import { MagicWandIcon } from "@radix-ui/react-icons";
+import { ExternalLinkIcon, MagicWandIcon } from "@radix-ui/react-icons";
+import { useFetchDateIdeas } from "@/app/hooks/useFetchDateIdeas";
+import { ThreeDots } from "react-loader-spinner";
+import { useState } from "react";
 
 export function DateIdeaSheet({
   match,
+  bio,
 }: Readonly<{
   match: Match;
+  bio: string;
 }>): JSX.Element {
+  const [open, setOpen] = useState(false);
+  const [ideas, ideasLoading] = useFetchDateIdeas(match, bio, open);
+
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button variant="outline">
           <MagicWandIcon /> Date ideas
@@ -34,23 +40,32 @@ export function DateIdeaSheet({
             interests.
           </SheetDescription>
         </SheetHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input id="name" value="Pedro Duarte" className="col-span-3" />
+        {ideasLoading ? (
+          <div className="flex justify-center items-center">
+            <ThreeDots color="#ffffff" />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
-            <Input id="username" value="@peduarte" className="col-span-3" />
-          </div>
-        </div>
+        ) : (
+          <ul className="divide-y divide-gray-400">
+            {ideas.map((idea) => (
+              <li key={idea.name} className="py-4">
+                <a
+                  href={idea.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex justify-between items-center"
+                >
+                  <span>{idea.name}</span>
+                  <Button variant="outline">
+                    <ExternalLinkIcon />
+                  </Button>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
         <SheetFooter>
           <SheetClose asChild>
-            <Button type="submit">Save changes</Button>
+            <Button type="submit">Close</Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>
