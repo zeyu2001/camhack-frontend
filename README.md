@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Submission for Cam Hack 2024 at the University of Cambridge.
 
-## Getting Started
+## Inspiration
 
-First, run the development server:
+Dating apps can be overwhelming. It's often difficult to create genuine responses to every message, so we've noticed a couple of key problems with modern apps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Creating an engaging profile that authentically represents you
+- Identifying compatible matches
+- Starting meaningful conversations that lead to real connections
+- Great date ideas
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Inspired by these challenges, we created ¬ Catfish (Not Catfish) - an AI-powered dating assistant that helps users optimize their dating profiles and interactions while maintaining authenticity.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## What it does
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+¬ Catfish provides four key features:
 
-## Learn More
+- **Automatic Profile Curation:** Analyzes your Instagram photos, Spotify songs, and app personal information to create a tailored dating profile bio, and personalized responses to profile questions. Sync with Tinder in one click, no need to open Tinder ever again - just show up for the good matches.
 
-To learn more about Next.js, take a look at the following resources:
+- **Match Compatibility:** Analyzes your profile and potential matches, and shared values to identify top matches.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Smart Openers:** Generates personalized opening messages for each match. References specific details from match profiles images/bio. Send in one click, no need to open Tinder ever again - just show up for the good matches.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Date Ideas:** Suggests personalized date activities based on shared interests in bios. Integrates with Tavily search API for real-time local event recommendations. Provides venue links and relevant details.
 
-## Deploy on Vercel
+## How we built it
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Technical Stack:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Frontend: Next.js, TailwindCSS, Radix UI
+- Backend: Flask (Python) with REST API endpoints
+- AI Integration: Anthropic's Claude 3.5 Sonnet for natural language processing
+- Search Integration: Tavily API for real-time date recommendations
