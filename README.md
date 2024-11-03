@@ -28,6 +28,24 @@ Inspired by these challenges, we created ¬ Catfish (Not Catfish) - an AI-powere
 Technical Stack:
 
 - Frontend: Next.js, TailwindCSS, Radix UI
-- Backend: Flask (Python) with REST API endpoints
+- Backend: Flask and Next.js on Vercel Serverless. Integrates with Instagram OAuth and official API + Tinder's reverse-engineered unofficial API (hehe)
 - AI Integration: Anthropic's Claude 3.5 Sonnet for natural language processing
 - Search Integration: Tavily API for real-time date recommendations
+
+## Gallery
+
+![](docs/1.jpg)
+
+![](docs/2.jpg)
+
+![](docs/3.jpg)
+
+![](docs/4.jpg)
+
+![](docs/5.jpg)
+
+![](docs/6.jpg)
+
+![](docs/7.jpg)
+
+![](docs/8.jpg)
